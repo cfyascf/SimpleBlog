@@ -1,30 +1,12 @@
-const express = require('express')
-const router = express.Router();
-const User = require('../models/user.model')
+import express from 'express'
+import { getAllUsersController, createUserController } from '../controllers/user.controller.js'
+import { createUserSchema } from '../schemas/user.schema.js'
+import { validateBody } from '../middlewares/validate.middlewares.js'
+
+const router = express.Router()
 
 router
-    .get('/api/v1/user/:id?', (req, res) => {
-        const { id } = req.params
-        // const { id } = req.query
+    .get('/api/v1/user/:id?', getAllUsersController)
+    .post('/api/v1/user', validateBody(createUserSchema), createUserController)
 
-        if(id != null) return res.send(id)
-            
-        return res.send("hello world")
-    })
-    .post('/api/v1/user', async (req, res) => {
-        const { name, lastname, salary } = req.body;
-
-        const data = {
-            name: name,
-            lastname: lastname,
-            salary: salary
-        }
-
-        const newUser = await User.create(data);
-        return res.status(201).send({ 
-            message: "User created successfully!", 
-            body: newUser 
-        })
-    })
-
-module.exports = router;
+export default router

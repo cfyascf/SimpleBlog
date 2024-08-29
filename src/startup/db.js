@@ -1,9 +1,12 @@
-const mongoose = require('mongoose');
-const config = require('config')
+import mongoose from 'mongoose';
+import 'dotenv/config'
 
-module.exports = function () {
-    const db = config.get('db');
+const connectDb = () => {
+    const db = process.env.CONNECTION_STRING;
     
     mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-        .then(() => console.log(`connected to ${db}`));
+        .then(() => console.log(`connected to ${db}.`))
+        .catch((error) => console.log('error running server.'))
 }
+
+export default connectDb

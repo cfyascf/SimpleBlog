@@ -1,11 +1,13 @@
-const bodyParser = require('body-parser')
-const user = require('./routes/user.routes')
-const product = require('./routes/product.routes')
+import bodyParser from 'body-parser'
+import userRoutes from './routes/user.routes.js'
+import authRoutes from './routes/auth.routes.js'
 
-module.exports = (app) => {
+const routes = (app) => {
     app.use(
         bodyParser.json(),
-        user,
-        product
+        userRoutes,
+        authRoutes
     )
 }
+
+export default routes

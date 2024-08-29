@@ -1,12 +1,19 @@
-const express = require('express')
+import express from 'express'
+import connectDb from './startup/db.js'
+import cors from 'cors'
+import router from './routes.js'
+
 const app = express()
 
-require('./startup/db')()
+app.use(cors({
+    origin: '*'
+}))
 
-const router = require('./routes')
+connectDb()
+
 router(app)
 
 const port = 8080
 const server = app.listen(port, () => console.log(`Listening on port ${port}`))
 
-module.exports = server
+export default server
